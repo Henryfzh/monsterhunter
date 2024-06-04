@@ -1,0 +1,2765 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>7715</ID>
+      <Description>"全屏CE模式 (F9) (Faith)"</Description>
+      <Color>FF0000</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+LuaCall(function cycleFullCompact(sender,force) local state = not(compactmenuitem.Caption == 'Compact View Mode'); if force~=nil then state = not force end; compactmenuitem.Caption = state and 'Compact View Mode' or 'Full View Mode'; getMainForm().Splitter1.Visible = state; getMainForm().Panel4.Visible    = state; getMainForm().Panel5.Visible    = state; end; function addCompactMenu() if compactmenualreadyexists then return end; local parent = getMainForm().Menu.Items; compactmenuitem = createMenuItem(parent); parent.add(compactmenuitem); compactmenuitem.Caption = 'Compact View Mode'; compactmenuitem.OnClick = cycleFullCompact; compactmenualreadyexists = 'yes'; end; addCompactMenu(); cycleFullCompact(nil,true))
+
+[DISABLE]
+LuaCall(cycleFullCompact(nil,false))
+</AssemblerScript>
+      <Hotkeys>
+        <Hotkey>
+          <Action>Toggle Activation</Action>
+          <Keys>
+            <Key>120</Key>
+          </Keys>
+          <ID>0</ID>
+        </Hotkey>
+      </Hotkeys>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>19304</ID>
+      <Description>"貓技能 [Marcus101RR's Scripts]"</Description>
+      <Options moHideChildren="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+globalalloc(gSaveData,1024)
+createthread(gSaveData)
+
+label(gSave)
+registersymbol(gSave)
+
+label(cSlot)
+registersymbol(cSlot)
+
+label(sMon)
+registersymbol(sMon)
+
+label(gSaveMon)
+registersymbol(gSaveMon)
+
+label(sWeap)
+registersymbol(sWeap)
+
+label(gSaveWeap)
+registersymbol(gSaveWeap)
+
+label(svData)
+registersymbol(svData)
+
+label(slot_source_index)
+registersymbol(slot_source_index)
+label(slot_destination_index)
+registersymbol(slot_destination_index)
+
+label(loop)
+
+gSaveData:
+push rcx
+push rdx
+
+loop:
+//grabs the address
+mov rcx,MonsterHunterWorld.exe+5073E80
+mov rcx,[rcx]
+mov rcx,[rcx+A8]
+
+//address + slot * 27E9F0
+mov rdx,27E9F0
+imul rdx,[cSlot]
+lea rcx,[rcx+rdx]
+
+//stores the new address
+mov [gSave],rcx
+
+// store monster data (guild card)
+mov rcx,[gSave]
+mov rdx,4
+imul rdx,[sMon]
+lea rcx,[rcx+rdx+F4EA8]
+mov [gSaveMon],rcx
+
+// +844 Weapon Usage
+mov rcx,[gSave]
+mov rdx,4
+imul rdx,[sWeap]
+lea rcx,[rcx+rdx+15A824]
+mov [gSaveWeap],rcx
+
+// Get Endemic Life
+mov rcx,[gSave]
+mov rdx,4
+imul rdx,[svData]
+lea rcx,[rcx+rdx+F6F28]
+mov [svData+8],rcx
+
+mov rcx,#1000
+sub rsp,28
+call sleep
+add rsp,28
+
+//repeat
+jne loop
+
+pop rdx
+pop rcx
+ret
+
+gSave:
+  dq 0
+cSlot:
+  dq 0
+sMon:
+  dq 0
+gSaveMon:
+  dq 0
+sWeap:
+  dq 0
+gSaveWeap:
+  dq 0
+svData:
+  dq 0
+  dq 0
+slot_source_index:
+  dq 0
+slot_destination_index:
+  dq 1
+[DISABLE]
+
+//dealloc(gSaveData)
+unregistersymbol(gSave)
+unregistersymbol(cSlot)
+unregistersymbol(sMon)
+unregistersymbol(gSaveMon)
+unregistersymbol(sWeap)
+unregistersymbol(gSaveWeap)
+unregistersymbol(svData)
+unregistersymbol(slot_source_index)
+unregistersymbol(slot_destination_index)
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>19306</ID>
+          <Description>"選擇角色"</Description>
+          <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">0:第一角色
+1:第一角色
+2:第一角色
+</DropDownList>
+          <VariableType>4 Bytes</VariableType>
+          <Address>cSlot</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19305</ID>
+          <Description>"Header"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <VariableType>Array of byte</VariableType>
+          <ByteLength>4</ByteLength>
+          <Address>[gSave]</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1337091809</ID>
+          <Description>"Header End"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <VariableType>Array of byte</VariableType>
+          <ByteLength>4</ByteLength>
+          <Address>[gSave]+27E9EF</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19317</ID>
+          <Description>"名字"</Description>
+          <VariableType>String</VariableType>
+          <Length>16</Length>
+          <Unicode>0</Unicode>
+          <CodePage>0</CodePage>
+          <ZeroTerminate>1</ZeroTerminate>
+          <Address>[gSave]+10261C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19318</ID>
+          <Description>"經驗"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+10265C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19319</ID>
+          <Description>"密蟲"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+102660</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19320</ID>
+          <Description>"蟲籠"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+102664</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19321</ID>
+          <Description>"大盾"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+102668</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19322</ID>
+          <Description>"貓笛"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+10266C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19323</ID>
+          <Description>"掠奪"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+102670</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19324</ID>
+          <Description>"爆彈"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+102674</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19325</ID>
+          <Description>"Bugtrapper"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+1026A0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19326</ID>
+          <Description>"Protectors"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+1026A4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19327</ID>
+          <Description>"Troupers"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+1026A8</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19328</ID>
+          <Description>"Plunderers"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+1026AC</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19329</ID>
+          <Description>"奇面"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+1026B0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19330</ID>
+          <Description>"獸纏"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[gSave]+1026BC</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1337091786</ID>
+      <Description>"強制任務"</Description>
+      <Options moHideChildren="1" moAllowManualCollapseAndExpand="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : MonsterHunterWorld.exe
+  Version: 
+  Date   : 2020-02-03
+  Author : Marcus101RR
+
+  This forces a quest on selection
+}
+
+[ENABLE]
+
+aobscanmodule(gSelectQuest,MonsterHunterWorld.exe,44 89 B7 2C 29 00 00) // should be unique
+alloc(newmem,$1000,gSelectQuest)
+
+label(code)
+label(return)
+
+label(gFQuest)
+registersymbol(gFQuest)
+
+newmem:
+
+code:
+  cmp [gFQuest],-01
+  je @f
+  mov r14d,[gFQuest]
+@@:
+  mov [rdi+0000292C],r14d
+  jmp return
+
+gFQuest:
+  dq -1
+
+gSelectQuest:
+  jmp newmem
+  nop
+  nop
+return:
+registersymbol(gSelectQuest)
+
+[DISABLE]
+
+gSelectQuest:
+  db 44 89 B7 2C 29 00 00
+
+unregistersymbol(gSelectQuest)
+dealloc(newmem)
+unregistersymbol(gFQuest)
+{
+// ORIGINAL CODE - INJECTION POINT: "MonsterHunterWorld.exe"+AFDFCA6
+
+"MonsterHunterWorld.exe"+AFDFC7A: 44 89 F2                    -  mov edx,r14d
+"MonsterHunterWorld.exe"+AFDFC7D: 46 8B 84 A7 9C 3F 00 00     -  mov r8d,[rdi+r12*4+00003F9C]
+"MonsterHunterWorld.exe"+AFDFC85: 48 89 F9                    -  mov rcx,rdi
+"MonsterHunterWorld.exe"+AFDFC88: 44 89 64 24 30              -  mov [rsp+30],r12d
+"MonsterHunterWorld.exe"+AFDFC8D: 66 89 44 24 28              -  mov [rsp+28],ax
+"MonsterHunterWorld.exe"+AFDFC92: 48 89 6C 24 20              -  mov [rsp+20],rbp
+"MonsterHunterWorld.exe"+AFDFC97: E8 D4 98 F7 F5              -  call MonsterHunterWorld.exe+F59570
+"MonsterHunterWorld.exe"+AFDFC9C: 89 C6                       -  mov esi,eax
+"MonsterHunterWorld.exe"+AFDFC9E: 85 C0                       -  test eax,eax
+"MonsterHunterWorld.exe"+AFDFCA0: 0F 85 EF FE FF FF           -  jne MonsterHunterWorld.exe+AFDFB95
+// ---------- INJECTING HERE ----------
+"MonsterHunterWorld.exe"+AFDFCA6: 44 89 B7 2C 29 00 00        -  mov [rdi+0000292C],r14d
+// ---------- DONE INJECTING  ----------
+"MonsterHunterWorld.exe"+AFDFCAD: 89 AF 30 29 00 00           -  mov [rdi+00002930],ebp
+"MonsterHunterWorld.exe"+AFDFCB3: 8B 9F 34 29 00 00           -  mov ebx,[rdi+00002934]
+"MonsterHunterWorld.exe"+AFDFCB9: 83 FB FF                    -  cmp ebx,-01
+"MonsterHunterWorld.exe"+AFDFCBC: 74 1E                       -  je MonsterHunterWorld.exe+AFDFCDC
+"MonsterHunterWorld.exe"+AFDFCBE: 48 8B 0D 3B AA D0 F9        -  mov rcx,[MonsterHunterWorld.exe+4CEA700]
+"MonsterHunterWorld.exe"+AFDFCC5: E8 F6 65 98 F6              -  call MonsterHunterWorld.exe+19662C0
+"MonsterHunterWorld.exe"+AFDFCCA: 48 89 C1                    -  mov rcx,rax
+"MonsterHunterWorld.exe"+AFDFCCD: 89 DA                       -  mov edx,ebx
+"MonsterHunterWorld.exe"+AFDFCCF: E8 0C D2 18 F6              -  call MonsterHunterWorld.exe+116CEE0
+"MonsterHunterWorld.exe"+AFDFCD4: 48 89 F9                    -  mov rcx,rdi
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>1337096111</ID>
+          <Description>"有机率崩溃，不可改活动任务"</Description>
+          <Color>FF8000</Color>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1337091787</ID>
+          <Description>"任务 ID"</Description>
+          <DropDownList DisplayValueAsItem="1">-1:空
+101:凶豺龍與古代樹森林
+102:冠突龍騷動中
+103:狩獵大凶豺龍吧
+151:突擊冠突龍！
+152:森林惡棍
+153:在古代樹森林中採集菇類
+201:致力於設置營地
+205:緊急任務‧狩獵毒妖鳥
+241:精通飛翔爪吧！
+251:來自深綠的獵食戰士
+252:搔鳥是收藏家？
+261:捕獲：搔鳥的生態調查
+262:美味的魚有獠牙
+263:驅除荒野之蟲
+301:橫衝直撞的狂徒們！？
+302:險惡的沼澤
+305:雷電奔走的飛雷龍
+306:森林暴徒‧蠻顎龍
+331:特殊鬥技場：毒妖鳥篇
+332:特殊鬥技場：土砂龍篇
+333:特殊鬥技場：飛雷龍篇
+351:調查毒妖鳥
+352:飛雷龍飛舞之森
+361:滿身泥巴大突擊！
+362:潛行泥邊的泥魚龍
+363:仙人掌的季節即將來臨
+364:我是荒地的搬運工
+365:捕獲：土砂龍的生態調查
+401:熔山龍捕獲作戰
+405:飛吧，浮空龍！
+407:狩獵骨鎚龍為粉身碎骨之戰！
+408:華麗獵人‧風漂龍
+431:特殊鬥技場：蠻顎龍篇
+432:特殊鬥技場：雌火龍篇
+433:特殊鬥技場：浮空龍篇
+434:特殊鬥技場：骨鎚龍篇
+451:與蠻勇之牙對峙
+452:我是森林的搬運工
+461:女王在荒地中燃燒
+471:纏繞黑暗的紅光
+472:來自薄暗的眩鳥
+473:輕盈飄浮的浮空龍
+474:陸之貝是否夢想深海之夢？
+475:捕獲：浮空龍的生態調查
+481:怒濤的巨甲蟲祭
+482:大凶顎龍是麻痺的香氣
+483:骨戰車前往山谷
+484:展翅的惡夢
+501:深入谷底
+502:火龍為森林之頂
+503:角龍為沙地之底
+504:熔山龍誘導作戰
+531:特殊鬥技場：風漂龍篇
+532:特殊鬥技場：慘爪龍篇
+533:特殊鬥技場：火龍篇
+534:特殊鬥技場：角龍篇
+551:王在頂點沉睡
+552:最強、最恐、最棒夫妻！
+561:沙上的雙角
+571:冰結奏鳴曲
+572:蒼白之蹄的旋律
+581:殘忍凶爪
+582:捕獲：慘爪龍的生態調查
+583:不入虎穴焉得虎肉
+601:驚愕的！毒妖鳥！調查！
+605:暴徒變得更粗暴了
+607:神秘王國的女王
+631:特殊鬥技場：毒妖鳥進階篇
+632:特殊鬥技場：土砂龍進階篇
+633:特殊鬥技場：飛雷龍進階篇
+634:特殊鬥技場：蠻顎龍進階篇
+635:特殊鬥技場：雌火龍進階篇
+636:特殊鬥技場：浮空龍進階篇
+637:特殊鬥技場：骨鎚龍進階篇
+641:令人懷念的落日餘暉
+651:狩獵大凶豺龍
+652:狩獵毒妖鳥
+653:狩獵飛雷龍
+654:狩獵蠻顎龍
+655:沉睡之森的女王
+656:捕獲：有如飛雷般的那個
+661:狩獵搔鳥
+662:狩獵土砂龍
+663:毒妖鳥潛伏荒地
+665:狩獵泥魚龍
+666:狩獵雌火龍
+667:暴徒到訪荒地
+671:狩獵眩鳥
+672:狩獵浮空龍
+681:用來提味的是麻痺的那傢伙
+682:狩獵骨鎚龍
+683:料理長的！興奮期待交貨委託
+684:料理長的！心跳加速討伐委託
+691:無法阻止急速衝刺的突擊龍
+692:討伐酸翼龍
+693:狩獵岩賊龍
+694:料理長的！緊張刺激擊退委託
+701:渴望的黑創
+731:特殊鬥技場：櫻火龍進階篇
+732:特殊鬥技場：風漂龍進階篇
+733:特殊鬥技場：慘爪龍進階篇
+734:特殊鬥技場：爆鎚龍進階篇
+735:特殊鬥技場：火龍進階篇
+736:特殊鬥技場：蒼火龍進階篇
+737:特殊鬥技場：角龍進階篇
+738:特殊鬥技場：黑角龍進階篇
+751:狩獵火龍
+752:狩獵蒼火龍
+753:蒼紅亂麻
+761:狩獵櫻火龍
+762:狩獵角龍
+763:黑角龍鍾愛沙地
+764:荒野的大大大暴動！
+771:台地的暴風雪是櫻色
+772:狩獵風漂龍
+773:好戲在慘爪龍之後
+774:涼爪與慘爪的交會之處
+781:狩獵慘爪龍
+791:熔岩龍
+792:爆鎚龍翻倒了！
+793:其為蒼空王者
+794:奇襲燎原爆鱗龍
+795:火與火交會者們
+801:鋼鐵的鋼龍
+802:爆炎的炎王龍
+803:冥底的屍套龍
+804:收束之地
+805:超越爆鱗之道
+806:此雷鳴是天罰？亦或是祝福？
+851:剎現的荒天預感
+861:熱沙陽炎
+871:幻獸如是美麗
+881:覺醒於墓標之底
+891:噬嵐者
+892:暴風之主
+893:獄炎的牙城
+894:噬焰者
+895:颶風之瑕因緣不淺
+896:業火之瑕因緣不淺
+961:超越爆鱗之道
+971:此雷鳴是天罰？亦或是祝福？
+991:在冥河中揭起燈火
+992:新大陸的白風
+995:指引明路的蒼藍星
+996:泥土與骨鎚的激烈大戰
+997:新大陸的空與花
+998:在深淵之底呼喚你
+1101:初次洗禮！？
+1102:粗活就交給猛牛龍
+1121:深雪的潛水員
+1122:連猛牛也要敬畏獵人三分！？
+1123:捕獲：有志者雪竟融
+1124:冰樹下的閃耀眼神
+1125:來自寒冷之地的招呼
+1131:特殊鬥技場：毒妖鳥Master篇
+1132:特殊鬥技場：土砂龍Master篇
+1133:特殊鬥技場：飛雷龍Master篇
+1134:特殊鬥技場：猛牛龍Master篇
+1151:大凶豺龍的回歸
+1152:長舌的搗蛋鬼
+1153:飛電迅如箭
+1154:漂泊的收藏家，在此現身！
+1155:捕獲：猛角掃千軍
+1161:荒地的寶物獵人
+1162:橫衝直撞就是風格
+1163:你我之間的泥濘之戰
+1164:毒妖鳥的美食之旅？
+1171:眩鳥☆閃光！
+1181:我們的教父
+1191:龍結晶晚餐
+1192:巨角破壞王
+1201:冰土守門者‧痺毒龍
+1202:眠之飛龍與四顆眼珠
+1203:佔領飲水處吧！
+1221:狩獵痺毒龍
+1222:捕獲：用毒與麻痺的高手
+1223:獸纏族！獸獸獸纏族！
+1224:雙方團隊的共同戰線
+1225:魚心冰意
+1231:特殊鬥技場：蠻顎龍Master篇
+1232:特殊鬥技場：骨鎚龍Master篇
+1233:特殊鬥技場：水妖鳥Master篇
+1234:特殊鬥技場：痺毒龍Master篇
+1235:特殊鬥技場：雌火龍Master篇
+1236:特殊鬥技場：櫻火龍Master篇
+1237:特殊鬥技場：浮空龍Master篇
+1238:特殊鬥技場：浮眠龍Master篇
+1251:森林的暴徒、再臨
+1252:陸地女王‧雌火龍的嘆息
+1253:捕獲：晚安了浮眠龍
+1261:女王陛下優雅的一天
+1262:狩獵浮眠龍
+1263:肆虐荒地的暴徒
+1264:華麗的皇后們
+1271:高飛吧！浮空龍！
+1272:春神降臨珊瑚大地
+1273:補充水分最重要！
+1274:過度暢飲緊報！
+1281:狩獵骨鎚龍
+1282:蟲？昆蟲！？都是蟲！！！
+1291:尋找遠古的光輝
+1301:冰凍王國的白騎士
+1302:絕影
+1303:灼熱之刃，斬龍！
+1304:絕對強者
+1305:粉碎的迎擊拳
+1306:來自冰炎一線間
+1321:冰牙龍現身！
+1322:捕獲：理想房間喵！石篇
+1323:孤高的白騎士
+1331:特殊鬥技場：風漂龍Master篇
+1332:特殊鬥技場：慘爪龍Master篇
+1333:特殊鬥技場：爆鎚龍Master篇
+1334:特殊鬥技場：火龍Master篇
+1335:特殊鬥技場：角龍Master篇
+1336:特殊鬥技場：冰牙龍Master篇
+1337:特殊鬥技場：迅龍Master篇
+1338:特殊鬥技場：斬龍Master篇
+1339:特殊鬥技場：碎龍Master篇
+1340:特殊鬥技場：轟龍Master篇
+1351:空中之王君臨的挑戰
+1352:疾風的迅龍
+1353:一刀兩斷的奧義
+1354:最強的紅與黑
+1361:死鬥，角龍現身！
+1362:眩目的一閃
+1363:刀具與火侯決定了料理的一切
+1371:歡迎來到天空舞會！
+1372:暗閻之風
+1373:慘劇就在眼前
+1381:龍爪的慘劇
+1382:轟響山谷的咆哮
+1383:暴走、狂轉、大競爭！
+1391:爆破警報發布中
+1392:打倒熔岩龍要趁熱
+1393:迴旋的爆鎚龍
+1394:捕獲：秘訣就在於黏菌！？
+1395:爆炸粉碎的慶典！
+1401:剎那白霧
+1402:腐蝕之刃‧硫斬龍
+1403:兇終隙末‧兇爪龍
+1404:月辰防衛戰
+1405:暴徒大將的狩獵大作戰！
+1421:風霜高潔的獵人
+1422:不畏嚴寒的暴徒
+1423:舞蹈家的雙人舞
+1424:重點就在水氣中
+1431:特殊鬥技場：蒼火龍Master篇
+1432:特殊鬥技場：黑角龍Master篇
+1433:特殊鬥技場：硫斬龍Master篇
+1434:特殊鬥技場：兇爪龍Master篇
+1435:特殊鬥技場：雷顎龍Master篇
+1451:天蒼恢恢！
+1452:林中兇爪
+1461:從沙地衝出奔馳吧少女！
+1462:黑光炯炯
+1471:黑色的罪人
+1481:腐蝕之劍
+1482:捕獲：理想房間喵！鐵明篇
+1483:理想房間喵！鐵暗篇
+1491:再調查‧蒼火龍
+1492:捕獲：捉拿雷之顎吧！
+1501:冰之龍
+1502:大災難，再次到來！
+1503:霧瘴屍套龍
+1504:直至點亮溟海指標
+1521:冰冠的交戰
+1551:召喚晴天的魔龍
+1552:死亡之神降臨
+1561:沙漠中的晉見
+1562:恐暴的饗宴
+1571:雷電閃光
+1572:海神迷惘的記憶
+1581:吞食生命無返黃泉
+1591:翔風之龍
+1592:太陽的證明
+1593:爆裂滾滾爆鱗龍
+1594:捕獲：理想房間喵！銀篇
+1601:引導者之歌
+1602:引導之歌
+1603:惰眠與火酒的日子
+1604:貫徹武道家魂！！
+1605:與心愛的你行至世界盡頭
+1606:目中無人的傢伙來了！
+1631:榮冠的獵人們
+1632:特殊鬥技場：雷狼龍Master篇
+1633:特殊鬥技場：黑狼鳥Master篇
+1634:特殊鬥技場：黑轟龍Master篇
+1635:特殊鬥技場：金火龍Master篇
+1636:特殊鬥技場：銀火龍Master篇
+1641:遠方的蘿蕾萊
+1642:陰陽讚歌
+1651:突從天降的別離與風暴
+1661:與你的相遇是炎妃蒼火
+1671:神賜的台地
+1691:皇妃鎮座的炎之宮殿
+1692:新大陸的獵人們啊
+3001:鬥技大會02
+3002:鬥技大會03
+3031:鬥技大會04
+3032:鬥技大會05
+3033:鬥技大會06
+3034:鬥技大會07
+3051:鬥技大會08
+3052:鬥技大會09
+3071:鬥技大會Master級02
+3072:鬥技大會Master級03
+3073:鬥技大會Master級04
+3074:鬥技大會Master級05
+3091:鬥技大會Master級06
+3092:鬥技大會Master級07
+3101:鬥技大會01
+3171:鬥技大會Master級01
+5003:擊退眩鳥吧！
+50601:來自異世界的訪客
+50701:順應食物鏈的趨勢！
+50702:无
+50751:你我都是食物鏈
+50801:烈日
+50802:潘朵拉的鬥技場
+50803:只有跪拜一途
+50861:炎王龍與炎妃龍
+50891:攪亂妃心之風
+50892:攪亂妃心之風
+50901:地母神的奢華享宴
+50902:狂亂的黃金鄉
+50905:傳說的魔獸貝希摩斯
+50906:受傷的魔獸貝希摩斯
+50910:委託：古代樹森林的變異調查
+50991:來自艾歐澤亞的訪客
+51601:出來吧，破壞的化身
+51602:銀色的矜持
+51603:失去的幽世綫
+51604:不歸的地底
+51605:赤色的龍
+51606:極限爆碎
+51607:金色羅剎
+51621:特殊鬥技場：獄狼龍Master篇
+51622:爆華綻放
+51623:迎接終焉之金光
+61101:清晨大騷動
+61103:天黑前的片刻
+61104:暴徒起大早散步
+61105:獵人們永遠的夢想
+61601:深夜大騷動
+61603:兩位女王
+61604:無懼於空中飛人
+61605:菌猪是菌但也是菇菌的菌
+61606:窮賊囓獵人！
+61607:本尊的名字是熔岩龍
+62502:寂靜之幕
+62503:隱藏的白色鬃毛也
+62504:太陽熊熊燃燒之時
+62505:在暴風雨中
+62506:毀滅來臨，喇叭作響
+62511:青出於愛而更勝其愛
+62515:脈動，本能
+62606:不滅之黎明破曉
+62607:此乃古龍之王
+62608:看見曙光
+62609:冥河的凱倫
+63001:初級挑戰任務01
+63002:初級挑戰任務02
+63003:巨蜂大爆動！！
+63005:挑戰USJ！【初級篇】
+63006:挑戰USJ！【達人篇】
+63007:挑戰USJ！【初級篇】
+63008:挑戰USJ！【達人篇】
+63031:中級挑戰任務01
+63032:中級挑戰任務02
+63033:奇面族大脫逃！！
+63051:上級挑戰任務01
+63052:上級挑戰任務02
+63071:MR中級挑戰任務01
+63072:MR中級挑戰任務02
+63073:MR上級挑戰任務01
+63074:MR上級挑戰任務02
+63101:MHW活動：討伐滅盡龍01
+63102:MHW活動：討伐滅盡龍02
+63103:MHW活動：討伐滅盡龍03
+63104:MHW活動：討伐風漂慘爪01
+63105:MHW活動：討伐風漂慘爪02
+63106:MHW活動：討伐風漂慘爪03
+63107:MHW活動：討伐滅盡龍04
+63108:MHW活動：討伐恐暴龍
+63109:MHW活動：立於頂點的人們
+63110:MHW活動：潛藏在森林中的人們
+63130:MHW活動：紊亂與紀律的盡頭
+63131:MHW活動：獵人與青藍王妃
+63142:MHW活動：拒絕結冰的生命
+63143:MHW活動：冰冠之主
+63144:MHW活動：真正強者
+63145:MHW活動：無垢的星光
+63146:MHW活動：朝光邁進的獵人
+63147:MHW活動：不怕受傷的時候
+63149:MHW活動：力與技
+63150:MHW活動：拒絕結冰的生命
+64101:爭奪地盤決定戰
+64601:爆鎚龍們翻倒了！
+65601:我們是惡棍
+65602:抗拒強光的人們
+65603:愛上蛋吧！
+65604:身心都是搖曳鰻
+65605:咚咚咚三兄弟
+65606:交貨順便調查痕跡
+65607:交貨，不管怎樣就是要痕跡
+66101:大胃王們來了！
+66102:共鬥鳥×鳥
+66103:狩獵骨肉
+66104:雙幻影
+66105:長有翅膀者有毒
+66106:打開食欲之門！
+66601:深綠的藍調
+66602:荒野的波麗露
+66603:海台的華爾滋
+66604:荒廢之谷的歌劇
+66605:結晶體的搖滾樂
+66606:暴動亦如是
+66607:山丘上的雪見櫻
+66608:調查(蠻顎龍，蒼火龍)
+66609:不守秩序者，前途黯淡
+66610:誰對王座露出獠牙？
+67103:斬擊大騷動！！？
+67105:USJ‧躍動吧，金星們！
+67106:USJ‧躍動吧，金星們！
+67603:USJ‧燃燒喲，蒼星們！
+67604:USJ‧燃燒喲，蒼星們！
+67605:Code: Red
+67606:貝希摩斯殲殛戰
+67608:慘靜，恐暴，艷熱
+67610:委託：林精
+61801:抓住銀猴！
+61802:獵人們永遠的夢想Ⅲ
+61803:獵人們永遠的夢想Ⅱ
+61805:捉到胖衣企鵝！
+61806:粉碎礦山
+61807:古龍來臨，冰凍三尺
+61808:噢，健美身體
+61809:好壞孩子統統入睡
+61811:美麗的東西會凍傷
+61812:飢餓不等人
+61813:鬥技場的白色情書
+61814:調查（雷狼龍，溟波龍）
+61815:朝天空狙擊！
+61816:那條魚鋒利的嗎？
+64801:巨大氣球x巨大氣球
+64802:燻火山堆
+66801:這條魚不適合進食
+66802:地底之主正在呼喚...
+66803:拘泥於沼泥的猛牛們
+66804:乾地的寶石果實
+66805:真正的暴徒是哪個？！
+66806:繽‧紛‧色‧彩
+66807:睡眠與麻痹的組合
+66808:焚天之王，游火之哲
+66809:在乎荒地發生的事
+66810:水與冰氣正在等候
+66811:燃燒吧，獸龍種！！！！
+66812:不候人的全力疾走
+66813:森林深處
+66814:適合地底
+66815:三界主
+66816:永凍冬季
+66817:飢渴的理由
+66818:踢地跨月
+66819:我既優雅又充滿良心
+66820:破天大轟
+66821:銀色逆光
+66822:月亮是無慈悲的金女王
+66824:力量是金
+66825:暴虐與不合理乃傷痕之母
+66826:大樹的約德爾
+66827:溫泥的重金屬
+66828:海底的經典
+66829:生命的頌歌
+66830:粗暴的另類
+66831:冰封的謠曲
+66832:八萬地獄之狼
+66833:無終止的淘金記
+66834:轟與迅的熱切邂逅
+66835:雷霆鳴神，降臨
+66836:殲滅之鐘，再次作響
+66847:溟呼遠響
+66859:燻火山堆
+66860:雷霆鳴神，降臨
+67801:RE: 生物危害重歸大地
+67807:暗殺者
+</DropDownList>
+          <ShowAsSigned>1</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>gFQuest</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5329</ID>
+      <Description>"猫饭编辑"</Description>
+      <Options moHideChildren="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : MonsterHunterWorld.exe
+  Version: 
+  Date   : 2018-09-04
+  Author : Squall8
+}
+
+[ENABLE]
+
+aobscanmodule(mealeditor,MonsterHunterWorld.exe,41 8B 8F A0 00 00 00)
+alloc(newmem,$1000,mealeditor)
+
+label(code)
+label(return)
+label(mealp)
+
+registersymbol(mealeditor)
+registersymbol(mealp)
+
+newmem:
+  mov [mealp],r15
+
+code:
+  mov ecx,[r15+000000A0]
+  jmp return
+
+mealp:
+  dq 0
+
+mealeditor:
+  jmp newmem
+  nop 2
+return:
+
+[DISABLE]
+
+mealeditor:
+  db 41 8B 8F A0 00 00 00
+
+unregistersymbol(mealeditor)
+unregistersymbol(mealp)
+dealloc(newmem)
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>5330</ID>
+          <Description>"基础"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>0</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5341</ID>
+          <Description>"技能 1"</Description>
+          <Options moHideChildren="1" moRecursiveSetValue="1"/>
+          <DropDownList DisplayValueAsItem="1">0:猫的研磨术
+1:猫的骑乘好手
+2:猫的火场怪力
+3:猫的解体术(大)
+4:猫的解体术(小)
+5:猫的医疗术
+6:猫的体术
+7:猫的火药术
+8:猫的特殊攻击术
+9:猫的防御术(大)
+10:猫的防御术(小)
+11:猫的收获祭
+12:猫的射击术
+13:招财猫的幸运
+14:猫的弹武好手
+15:猫的逃走术
+16:猫的宅配术
+17:猫的搬运达人
+18:猫的弱小招来！
+19:猫的换算术
+20:猫的起身术(大)
+21:猫的起身术(小)
+22:猫的粗暴射击
+23:猫的攀爬藤蔓达人
+24:猫的紧抓不放铁人
+25:猫的解体铁人
+26:猫的着地术
+27:猫的蛮干术
+28:猫的赠品术
+29:猫的KO术
+30:招财猫的财运
+31:猫的炮击术
+32:猫的大毅力
+33:猫的异臭球达人
+34:猫的理毛好手
+35:猫的长靴术
+36:猫的受身术
+37:猫的放马过来
+38:猫的随从指导术
+39:猫的短期催眠术
+40:猫的坚定不移术
+41:猫的钓鱼好手
+42:猫的休息术
+43:猫的报酬金保险
+44:猫的吸引仇恨好手
+45:猫的后面交给你们了！
+46:猫的探索好天气
+47:猫的天气预报
+48:猫的防滑鞋
+49:猫的裁缝术
+50:猫的生命保险
+51:猫的园艺术
+52:猫的残余术
+53:猫的生物博士
+54:猫的生物学者
+55:猫的大型吸引
+56:猫的小型吸引
+</DropDownList>
+          <Color>000080</Color>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>50</Offset>
+          </Offsets>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>5346</ID>
+              <Description>"技能 1 (Writes In Quest)"</Description>
+              <DropDownList DisplayValueAsItem="1">0:猫的研磨术
+1:猫的骑乘好手
+2:猫的火场怪力
+3:猫的解体术(大)
+4:猫的解体术(小)
+5:猫的医疗术
+6:猫的体术
+7:猫的火药术
+8:猫的特殊攻击术
+9:猫的防御术(大)
+10:猫的防御术(小)
+11:猫的收获祭
+12:猫的射击术
+13:招财猫的幸运
+14:猫的弹武好手
+15:猫的逃走术
+16:猫的宅配术
+17:猫的搬运达人
+18:猫的弱小招来！
+19:猫的换算术
+20:猫的起身术(大)
+21:猫的起身术(小)
+22:猫的粗暴射击
+23:猫的攀爬藤蔓达人
+24:猫的紧抓不放铁人
+25:猫的解体铁人
+26:猫的着地术
+27:猫的蛮干术
+28:猫的赠品术
+29:猫的KO术
+30:招财猫的财运
+31:猫的炮击术
+32:猫的大毅力
+33:猫的异臭球达人
+34:猫的理毛好手
+35:猫的长靴术
+36:猫的受身术
+37:猫的放马过来
+38:猫的随从指导术
+39:猫的短期催眠术
+40:猫的坚定不移术
+41:猫的钓鱼好手
+42:猫的休息术
+43:猫的报酬金保险
+44:猫的吸引仇恨好手
+45:猫的后面交给你们了！
+46:猫的探索好天气
+47:猫的天气预报
+48:猫的防滑鞋
+49:猫的裁缝术
+50:猫的生命保险
+51:猫的园艺术
+52:猫的残余术
+53:猫的生物博士
+54:猫的生物学者
+55:猫的大型吸引
+56:猫的小型吸引
+</DropDownList>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>C4</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>5349</ID>
+              <Description>"技能 1 Color (Writes In Quest)"</Description>
+              <DropDownList DisplayValueAsItem="1">0:猫的研磨术
+1:猫的骑乘好手
+2:猫的火场怪力
+3:猫的解体术(大)
+4:猫的解体术(小)
+5:猫的医疗术
+6:猫的体术
+7:猫的火药术
+8:猫的特殊攻击术
+9:猫的防御术(大)
+10:猫的防御术(小)
+11:猫的收获祭
+12:猫的射击术
+13:招财猫的幸运
+14:猫的弹武好手
+15:猫的逃走术
+16:猫的宅配术
+17:猫的搬运达人
+18:猫的弱小招来！
+19:猫的换算术
+20:猫的起身术(大)
+21:猫的起身术(小)
+22:猫的粗暴射击
+23:猫的攀爬藤蔓达人
+24:猫的紧抓不放铁人
+25:猫的解体铁人
+26:猫的着地术
+27:猫的蛮干术
+28:猫的赠品术
+29:猫的KO术
+30:招财猫的财运
+31:猫的炮击术
+32:猫的大毅力
+33:猫的异臭球达人
+34:猫的理毛好手
+35:猫的长靴术
+36:猫的受身术
+37:猫的放马过来
+38:猫的随从指导术
+39:猫的短期催眠术
+40:猫的坚定不移术
+41:猫的钓鱼好手
+42:猫的休息术
+43:猫的报酬金保险
+44:猫的吸引仇恨好手
+45:猫的后面交给你们了！
+46:猫的探索好天气
+47:猫的天气预报
+48:猫的防滑鞋
+49:猫的裁缝术
+50:猫的生命保险
+51:猫的园艺术
+52:猫的残余术
+53:猫的生物博士
+54:猫的生物学者
+55:猫的大型吸引
+56:猫的小型吸引
+</DropDownList>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>E8</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5343</ID>
+          <Description>"技能 2"</Description>
+          <Options moHideChildren="1" moRecursiveSetValue="1"/>
+          <DropDownList DisplayValueAsItem="1">0:猫的研磨术
+1:猫的骑乘好手
+2:猫的火场怪力
+3:猫的解体术(大)
+4:猫的解体术(小)
+5:猫的医疗术
+6:猫的体术
+7:猫的火药术
+8:猫的特殊攻击术
+9:猫的防御术(大)
+10:猫的防御术(小)
+11:猫的收获祭
+12:猫的射击术
+13:招财猫的幸运
+14:猫的弹武好手
+15:猫的逃走术
+16:猫的宅配术
+17:猫的搬运达人
+18:猫的弱小招来！
+19:猫的换算术
+20:猫的起身术(大)
+21:猫的起身术(小)
+22:猫的粗暴射击
+23:猫的攀爬藤蔓达人
+24:猫的紧抓不放铁人
+25:猫的解体铁人
+26:猫的着地术
+27:猫的蛮干术
+28:猫的赠品术
+29:猫的KO术
+30:招财猫的财运
+31:猫的炮击术
+32:猫的大毅力
+33:猫的异臭球达人
+34:猫的理毛好手
+35:猫的长靴术
+36:猫的受身术
+37:猫的放马过来
+38:猫的随从指导术
+39:猫的短期催眠术
+40:猫的坚定不移术
+41:猫的钓鱼好手
+42:猫的休息术
+43:猫的报酬金保险
+44:猫的吸引仇恨好手
+45:猫的后面交给你们了！
+46:猫的探索好天气
+47:猫的天气预报
+48:猫的防滑鞋
+49:猫的裁缝术
+50:猫的生命保险
+51:猫的园艺术
+52:猫的残余术
+53:猫的生物博士
+54:猫的生物学者
+55:猫的大型吸引
+56:猫的小型吸引
+</DropDownList>
+          <Color>000080</Color>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>5C</Offset>
+          </Offsets>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>5347</ID>
+              <Description>"技能 2 (Writes In Quest)"</Description>
+              <DropDownList DisplayValueAsItem="1">0:猫的研磨术
+1:猫的骑乘好手
+2:猫的火场怪力
+3:猫的解体术(大)
+4:猫的解体术(小)
+5:猫的医疗术
+6:猫的体术
+7:猫的火药术
+8:猫的特殊攻击术
+9:猫的防御术(大)
+10:猫的防御术(小)
+11:猫的收获祭
+12:猫的射击术
+13:招财猫的幸运
+14:猫的弹武好手
+15:猫的逃走术
+16:猫的宅配术
+17:猫的搬运达人
+18:猫的弱小招来！
+19:猫的换算术
+20:猫的起身术(大)
+21:猫的起身术(小)
+22:猫的粗暴射击
+23:猫的攀爬藤蔓达人
+24:猫的紧抓不放铁人
+25:猫的解体铁人
+26:猫的着地术
+27:猫的蛮干术
+28:猫的赠品术
+29:猫的KO术
+30:招财猫的财运
+31:猫的炮击术
+32:猫的大毅力
+33:猫的异臭球达人
+34:猫的理毛好手
+35:猫的长靴术
+36:猫的受身术
+37:猫的放马过来
+38:猫的随从指导术
+39:猫的短期催眠术
+40:猫的坚定不移术
+41:猫的钓鱼好手
+42:猫的休息术
+43:猫的报酬金保险
+44:猫的吸引仇恨好手
+45:猫的后面交给你们了！
+46:猫的探索好天气
+47:猫的天气预报
+48:猫的防滑鞋
+49:猫的裁缝术
+50:猫的生命保险
+51:猫的园艺术
+52:猫的残余术
+53:猫的生物博士
+54:猫的生物学者
+55:猫的大型吸引
+56:猫的小型吸引
+</DropDownList>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>C8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>5350</ID>
+              <Description>"技能 2 Color (Writes In Quest)"</Description>
+              <DropDownList DisplayValueAsItem="1">0:猫的研磨术
+1:猫的骑乘好手
+2:猫的火场怪力
+3:猫的解体术(大)
+4:猫的解体术(小)
+5:猫的医疗术
+6:猫的体术
+7:猫的火药术
+8:猫的特殊攻击术
+9:猫的防御术(大)
+10:猫的防御术(小)
+11:猫的收获祭
+12:猫的射击术
+13:招财猫的幸运
+14:猫的弹武好手
+15:猫的逃走术
+16:猫的宅配术
+17:猫的搬运达人
+18:猫的弱小招来！
+19:猫的换算术
+20:猫的起身术(大)
+21:猫的起身术(小)
+22:猫的粗暴射击
+23:猫的攀爬藤蔓达人
+24:猫的紧抓不放铁人
+25:猫的解体铁人
+26:猫的着地术
+27:猫的蛮干术
+28:猫的赠品术
+29:猫的KO术
+30:招财猫的财运
+31:猫的炮击术
+32:猫的大毅力
+33:猫的异臭球达人
+34:猫的理毛好手
+35:猫的长靴术
+36:猫的受身术
+37:猫的放马过来
+38:猫的随从指导术
+39:猫的短期催眠术
+40:猫的坚定不移术
+41:猫的钓鱼好手
+42:猫的休息术
+43:猫的报酬金保险
+44:猫的吸引仇恨好手
+45:猫的后面交给你们了！
+46:猫的探索好天气
+47:猫的天气预报
+48:猫的防滑鞋
+49:猫的裁缝术
+50:猫的生命保险
+51:猫的园艺术
+52:猫的残余术
+53:猫的生物博士
+54:猫的生物学者
+55:猫的大型吸引
+56:猫的小型吸引
+</DropDownList>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>EC</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5344</ID>
+          <Description>"技能 3"</Description>
+          <Options moHideChildren="1" moRecursiveSetValue="1"/>
+          <DropDownList DisplayValueAsItem="1">0:猫的研磨术
+1:猫的骑乘好手
+2:猫的火场怪力
+3:猫的解体术(大)
+4:猫的解体术(小)
+5:猫的医疗术
+6:猫的体术
+7:猫的火药术
+8:猫的特殊攻击术
+9:猫的防御术(大)
+10:猫的防御术(小)
+11:猫的收获祭
+12:猫的射击术
+13:招财猫的幸运
+14:猫的弹武好手
+15:猫的逃走术
+16:猫的宅配术
+17:猫的搬运达人
+18:猫的弱小招来！
+19:猫的换算术
+20:猫的起身术(大)
+21:猫的起身术(小)
+22:猫的粗暴射击
+23:猫的攀爬藤蔓达人
+24:猫的紧抓不放铁人
+25:猫的解体铁人
+26:猫的着地术
+27:猫的蛮干术
+28:猫的赠品术
+29:猫的KO术
+30:招财猫的财运
+31:猫的炮击术
+32:猫的大毅力
+33:猫的异臭球达人
+34:猫的理毛好手
+35:猫的长靴术
+36:猫的受身术
+37:猫的放马过来
+38:猫的随从指导术
+39:猫的短期催眠术
+40:猫的坚定不移术
+41:猫的钓鱼好手
+42:猫的休息术
+43:猫的报酬金保险
+44:猫的吸引仇恨好手
+45:猫的后面交给你们了！
+46:猫的探索好天气
+47:猫的天气预报
+48:猫的防滑鞋
+49:猫的裁缝术
+50:猫的生命保险
+51:猫的园艺术
+52:猫的残余术
+53:猫的生物博士
+54:猫的生物学者
+55:猫的大型吸引
+56:猫的小型吸引
+</DropDownList>
+          <Color>000080</Color>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>68</Offset>
+          </Offsets>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>5348</ID>
+              <Description>"技能 3 (Writes In Quest)"</Description>
+              <DropDownList DisplayValueAsItem="1">0:猫的研磨术
+1:猫的骑乘好手
+2:猫的火场怪力
+3:猫的解体术(大)
+4:猫的解体术(小)
+5:猫的医疗术
+6:猫的体术
+7:猫的火药术
+8:猫的特殊攻击术
+9:猫的防御术(大)
+10:猫的防御术(小)
+11:猫的收获祭
+12:猫的射击术
+13:招财猫的幸运
+14:猫的弹武好手
+15:猫的逃走术
+16:猫的宅配术
+17:猫的搬运达人
+18:猫的弱小招来！
+19:猫的换算术
+20:猫的起身术(大)
+21:猫的起身术(小)
+22:猫的粗暴射击
+23:猫的攀爬藤蔓达人
+24:猫的紧抓不放铁人
+25:猫的解体铁人
+26:猫的着地术
+27:猫的蛮干术
+28:猫的赠品术
+29:猫的KO术
+30:招财猫的财运
+31:猫的炮击术
+32:猫的大毅力
+33:猫的异臭球达人
+34:猫的理毛好手
+35:猫的长靴术
+36:猫的受身术
+37:猫的放马过来
+38:猫的随从指导术
+39:猫的短期催眠术
+40:猫的坚定不移术
+41:猫的钓鱼好手
+42:猫的休息术
+43:猫的报酬金保险
+44:猫的吸引仇恨好手
+45:猫的后面交给你们了！
+46:猫的探索好天气
+47:猫的天气预报
+48:猫的防滑鞋
+49:猫的裁缝术
+50:猫的生命保险
+51:猫的园艺术
+52:猫的残余术
+53:猫的生物博士
+54:猫的生物学者
+55:猫的大型吸引
+56:猫的小型吸引
+</DropDownList>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>CC</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>5351</ID>
+              <Description>"技能 3 Color (Writes In Quest)"</Description>
+              <DropDownList DisplayValueAsItem="1">0:猫的研磨术
+1:猫的骑乘好手
+2:猫的火场怪力
+3:猫的解体术(大)
+4:猫的解体术(小)
+5:猫的医疗术
+6:猫的体术
+7:猫的火药术
+8:猫的特殊攻击术
+9:猫的防御术(大)
+10:猫的防御术(小)
+11:猫的收获祭
+12:猫的射击术
+13:招财猫的幸运
+14:猫的弹武好手
+15:猫的逃走术
+16:猫的宅配术
+17:猫的搬运达人
+18:猫的弱小招来！
+19:猫的换算术
+20:猫的起身术(大)
+21:猫的起身术(小)
+22:猫的粗暴射击
+23:猫的攀爬藤蔓达人
+24:猫的紧抓不放铁人
+25:猫的解体铁人
+26:猫的着地术
+27:猫的蛮干术
+28:猫的赠品术
+29:猫的KO术
+30:招财猫的财运
+31:猫的炮击术
+32:猫的大毅力
+33:猫的异臭球达人
+34:猫的理毛好手
+35:猫的长靴术
+36:猫的受身术
+37:猫的放马过来
+38:猫的随从指导术
+39:猫的短期催眠术
+40:猫的坚定不移术
+41:猫的钓鱼好手
+42:猫的休息术
+43:猫的报酬金保险
+44:猫的吸引仇恨好手
+45:猫的后面交给你们了！
+46:猫的探索好天气
+47:猫的天气预报
+48:猫的防滑鞋
+49:猫的裁缝术
+50:猫的生命保险
+51:猫的园艺术
+52:猫的残余术
+53:猫的生物博士
+54:猫的生物学者
+55:猫的大型吸引
+56:猫的小型吸引
+</DropDownList>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>F0</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5333</ID>
+          <Description>"攻击力提升等级 ( 0-3 )"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>B8</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5354</ID>
+          <Description>"防御力提升等级 ( 0-3 )"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>BC</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5355</ID>
+          <Description>"属性抗性提升等级 ( 0-3 )"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>C0</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5353</ID>
+          <Description>"体力增加 ( 0-5 )"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>B0</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5334</ID>
+          <Description>"耐力增加 ( 0-2 )"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>B4</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5332</ID>
+          <Description>"随从体力增加 ( 0-5 )"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>D8</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5342</ID>
+          <Description>"技能1类分类(作者说无关紧要)"</Description>
+          <DropDownList DescriptionOnly="1" DisplayValueAsItem="1">0:勇气
+1:忍耐
+2:热血
+3:智囊
+4:烟火师
+5:眼力
+6:运气
+7:旅行准备
+8:开拓者
+</DropDownList>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>54</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5331</ID>
+          <Description>"新鲜食材/技能激活率 (0-6) (只影响视觉效果不影响技能发动)"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>mealp</Address>
+          <Offsets>
+            <Offset>A0</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5352</ID>
+          <Description>"[ 食材选择（参考）]"</Description>
+          <Options moHideChildren="1"/>
+          <Color>000080</Color>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>5335</ID>
+              <Description>"食材 Slot 1"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>5336</ID>
+              <Description>"食材 Slot 2"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>C</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>5337</ID>
+              <Description>"食材 Slot 3"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>10</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>5338</ID>
+              <Description>"食材 Slot 4"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>14</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>5339</ID>
+              <Description>"食材 Slot 5"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>18</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>5340</ID>
+              <Description>"食材 Slot 6"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>mealp</Address>
+              <Offsets>
+                <Offset>1C</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1337095004</ID>
+      <Description>"塞胃裡面的貓飯"</Description>
+      <Options moHideChildren="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : MonsterHunterWorld.exe
+  Version:
+  Date   : 2020-01-26
+  Author : Faye
+  Define Base Address Pointers
+  Item AOB:  23 00 00 00 CD CC CC 3E 00 00 C0 3F 66 66 A6 3F E0 F2 2A 43 01 00 00 00 46 00 00 00 CD CC CC 3E
+}
+[ENABLE]
+
+define(pl_params,MonsterHunterWorld.exe+5072488)
+define(pl_item_params,MonsterHunterWorld.exe+5072490)
+define(pl_skill_params,MonsterHunterWorld.exe++5072498)
+define(pl_mantle_params,MonsterHunterWorld.exe+5072588)
+define(player_data,MonsterHunterWorld.exe+506D270)
+define(world_data,MonsterHunterWorld.exe+5073D60)
+define(session_data,MonsterHunterWorld.exe+5224BF8)
+define(gathering_data,MonsterHunterWorld.exe+5072770)
+define(monster_data,MonsterHunterWorld.exe+5074180)
+define(armor_skills,MonsterHunterWorld.exe+5072578)
+define(save_data,MonsterHunterWorld.exe+5073E80)
+
+define(item_caps,MonsterHunterWorld.exe+5072530)
+define(steamworks,MonsterHunterWorld.exe+4FE79C0)
+
+define(session_quest,MonsterHunterWorld.exe+506F240)
+define(coating_data,MonsterHunterWorld.exe+5072630)
+define(world_session2,MonsterHunterWorld.exe+506E3D0)
+
+registersymbol(pl_params)
+registersymbol(pl_item_params)
+registersymbol(pl_skill_params)
+registersymbol(pl_mantle_params)
+registersymbol(player_data)
+registersymbol(world_data)
+registersymbol(session_data)
+registersymbol(gathering_data)
+registersymbol(monster_data)
+registersymbol(armor_skills)
+registersymbol(save_data)
+
+registersymbol(item_caps)
+registersymbol(steamworks)
+registersymbol(session_quest)
+registersymbol(coating_data)
+registersymbol(world_session2)
+
+[DISABLE]
+unregistersymbol(pl_params)
+unregistersymbol(pl_item_params)
+unregistersymbol(pl_skill_params)
+unregistersymbol(pl_mantle_params)
+unregistersymbol(player_data)
+unregistersymbol(world_data)
+unregistersymbol(session_data)
+unregistersymbol(gathering_data)
+unregistersymbol(monster_data)
+unregistersymbol(armor_skills)
+unregistersymbol(save_data)
+
+unregistersymbol(item_caps)
+unregistersymbol(steamworks)
+unregistersymbol(session_quest)
+unregistersymbol(coating_data)
+unregistersymbol(world_session2)
+
+{
+OLD DATA
+define(pl_params,MonsterHunterWorld.exe+4F52C28)
+define(pl_item_params,MonsterHunterWorld.exe+4F2D1A0)
+define(pl_skill_params,MonsterHunterWorld.exe+4F2D1A8)
+define(pl_mantle_params,MonsterHunterWorld.exe+4F2D298)
+define(player_data,MonsterHunterWorld.exe+4F27500)
+define(world_data,MonsterHunterWorld.exe+4F2E9D0)
+define(session_data,MonsterHunterWorld.exe+50DF0D8) //Broken
+define(gathering_data,MonsterHunterWorld.exe+4F2D480)
+define(monster_data,MonsterHunterWorld.exe+4F2EDF0)
+define(armor_skills,MonsterHunterWorld.exe+4F2D288)
+define(save_data,MonsterHunterWorld.exe+4F2EAF0)
+
+define(item_caps,MonsterHunterWorld.exe+4F2D240) //Broken
+define(steamworks,MonsterHunterWorld.exe+4EA1F60)
+
+define(session_quest,MonsterHunterWorld.exe+4EC70C0) //Broken
+
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>1337092350</ID>
+          <Description>"自定义综合"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <VariableType>Array of byte</VariableType>
+          <ByteLength>32</ByteLength>
+          <Address>player_data</Address>
+          <Offsets>
+            <Offset>8</Offset>
+            <Offset>18</Offset>
+            <Offset>7D20</Offset>
+            <Offset>80</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1337096112</ID>
+          <Description>"體力"</Description>
+          <DropDownList>0:無
+1:小
+2:中
+3:大
+</DropDownList>
+          <VariableType>4 Bytes</VariableType>
+          <Address>player_data</Address>
+          <Offsets>
+            <Offset>8</Offset>
+            <Offset>18</Offset>
+            <Offset>7D20</Offset>
+            <Offset>80</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1337092358</ID>
+          <Description>"耐力"</Description>
+          <DropDownList>0:無
+1:小
+2:中
+3:大
+</DropDownList>
+          <VariableType>4 Bytes</VariableType>
+          <Address>player_data</Address>
+          <Offsets>
+            <Offset>C</Offset>
+            <Offset>18</Offset>
+            <Offset>7D20</Offset>
+            <Offset>80</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1337092357</ID>
+          <Description>"攻擊力"</Description>
+          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:無
+1:小
+2:中
+3:大
+</DropDownList>
+          <VariableType>4 Bytes</VariableType>
+          <Address>player_data</Address>
+          <Offsets>
+            <Offset>10</Offset>
+            <Offset>18</Offset>
+            <Offset>7D20</Offset>
+            <Offset>80</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1337092355</ID>
+          <Description>"防御力"</Description>
+          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:無
+1:小
+2:中
+3:大
+</DropDownList>
+          <VariableType>4 Bytes</VariableType>
+          <Address>player_data</Address>
+          <Offsets>
+            <Offset>14</Offset>
+            <Offset>18</Offset>
+            <Offset>7D20</Offset>
+            <Offset>80</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1337092356</ID>
+          <Description>"屬性耐性"</Description>
+          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:無
+1:小
+2:中
+3:大
+</DropDownList>
+          <VariableType>4 Bytes</VariableType>
+          <Address>player_data</Address>
+          <Offsets>
+            <Offset>18</Offset>
+            <Offset>18</Offset>
+            <Offset>7D20</Offset>
+            <Offset>80</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1337092354</ID>
+          <Description>"貓飯技能一"</Description>
+          <DropDownList DisplayValueAsItem="1">-1:空
+0:貓的研磨術
+1:貓的騎乘好手
+2:貓的火場怪力
+3:貓的解體術【大】
+4:貓的解體術【小】
+5:貓的醫療術
+6:貓的體術
+7:貓的火藥術
+8:貓的特殊攻擊術
+9:貓的防禦術【大】
+10:貓的防禦術【小】
+11:貓的收穫祭
+12:貓的射擊術
+13:招財貓的幸運
+14:貓的彈武好手
+15:貓的逃走術
+16:貓的宅配術
+17:貓的搬運鐵人
+18:貓的弱小招來！
+19:貓的換算術
+20:貓的起身術【大】
+21:貓的起身術【小】
+22:貓的粗暴射擊
+23:貓的攀爬藤蔓達人
+24:貓的緊抓不放鐵人
+25:貓的解體鐵人
+26:貓的著地術
+27:貓的蠻幹術
+28:貓的贈品術
+29:貓的KO術
+30:招財貓的財運
+31:貓的砲擊術
+32:貓的大毅力
+33:貓的異臭球達人
+34:貓的理毛好手
+35:貓的長靴術
+36:貓的受身術
+37:DUMMY000000
+38:貓的隨從指導術
+39:貓的短期催眠術
+40:貓的堅定不移術
+41:貓的釣魚好手
+42:貓的休息術
+43:貓的報酬金保險
+44:貓的吸引仇恨好手
+45:貓的後面交給你們了！
+46:貓的探索好天氣
+47:貓的天氣預報
+48:貓的防滑鞋
+49:貓的裁縫術
+50:貓的生命保險
+51:貓的園藝術
+52:貓的殘餘術
+53:貓的生物博士
+54:貓的生物學者
+55:貓的大型吸引
+56:貓的小型吸引
+</DropDownList>
+          <ShowAsSigned>1</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>player_data</Address>
+          <Offsets>
+            <Offset>1C</Offset>
+            <Offset>18</Offset>
+            <Offset>7D20</Offset>
+            <Offset>80</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1337092353</ID>
+          <Description>"貓飯技能二"</Description>
+          <DropDownList DisplayValueAsItem="1">-1:空
+0:貓的研磨術
+1:貓的騎乘好手
+2:貓的火場怪力
+3:貓的解體術【大】
+4:貓的解體術【小】
+5:貓的醫療術
+6:貓的體術
+7:貓的火藥術
+8:貓的特殊攻擊術
+9:貓的防禦術【大】
+10:貓的防禦術【小】
+11:貓的收穫祭
+12:貓的射擊術
+13:招財貓的幸運
+14:貓的彈武好手
+15:貓的逃走術
+16:貓的宅配術
+17:貓的搬運鐵人
+18:貓的弱小招來！
+19:貓的換算術
+20:貓的起身術【大】
+21:貓的起身術【小】
+22:貓的粗暴射擊
+23:貓的攀爬藤蔓達人
+24:貓的緊抓不放鐵人
+25:貓的解體鐵人
+26:貓的著地術
+27:貓的蠻幹術
+28:貓的贈品術
+29:貓的KO術
+30:招財貓的財運
+31:貓的砲擊術
+32:貓的大毅力
+33:貓的異臭球達人
+34:貓的理毛好手
+35:貓的長靴術
+36:貓的受身術
+37:DUMMY000000
+38:貓的隨從指導術
+39:貓的短期催眠術
+40:貓的堅定不移術
+41:貓的釣魚好手
+42:貓的休息術
+43:貓的報酬金保險
+44:貓的吸引仇恨好手
+45:貓的後面交給你們了！
+46:貓的探索好天氣
+47:貓的天氣預報
+48:貓的防滑鞋
+49:貓的裁縫術
+50:貓的生命保險
+51:貓的園藝術
+52:貓的殘餘術
+53:貓的生物博士
+54:貓的生物學者
+55:貓的大型吸引
+56:貓的小型吸引
+</DropDownList>
+          <ShowAsSigned>1</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>player_data</Address>
+          <Offsets>
+            <Offset>20</Offset>
+            <Offset>18</Offset>
+            <Offset>7D20</Offset>
+            <Offset>80</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1337092352</ID>
+          <Description>"貓飯技能三"</Description>
+          <DropDownList DisplayValueAsItem="1">-1:空
+0:貓的研磨術
+1:貓的騎乘好手
+2:貓的火場怪力
+3:貓的解體術【大】
+4:貓的解體術【小】
+5:貓的醫療術
+6:貓的體術
+7:貓的火藥術
+8:貓的特殊攻擊術
+9:貓的防禦術【大】
+10:貓的防禦術【小】
+11:貓的收穫祭
+12:貓的射擊術
+13:招財貓的幸運
+14:貓的彈武好手
+15:貓的逃走術
+16:貓的宅配術
+17:貓的搬運鐵人
+18:貓的弱小招來！
+19:貓的換算術
+20:貓的起身術【大】
+21:貓的起身術【小】
+22:貓的粗暴射擊
+23:貓的攀爬藤蔓達人
+24:貓的緊抓不放鐵人
+25:貓的解體鐵人
+26:貓的著地術
+27:貓的蠻幹術
+28:貓的贈品術
+29:貓的KO術
+30:招財貓的財運
+31:貓的砲擊術
+32:貓的大毅力
+33:貓的異臭球達人
+34:貓的理毛好手
+35:貓的長靴術
+36:貓的受身術
+37:DUMMY000000
+38:貓的隨從指導術
+39:貓的短期催眠術
+40:貓的堅定不移術
+41:貓的釣魚好手
+42:貓的休息術
+43:貓的報酬金保險
+44:貓的吸引仇恨好手
+45:貓的後面交給你們了！
+46:貓的探索好天氣
+47:貓的天氣預報
+48:貓的防滑鞋
+49:貓的裁縫術
+50:貓的生命保險
+51:貓的園藝術
+52:貓的殘餘術
+53:貓的生物博士
+54:貓的生物學者
+55:貓的大型吸引
+56:貓的小型吸引
+</DropDownList>
+          <ShowAsSigned>1</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>player_data</Address>
+          <Offsets>
+            <Offset>24</Offset>
+            <Offset>18</Offset>
+            <Offset>7D20</Offset>
+            <Offset>80</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Negate Material Cost</Description>
+      <AddressString>MonsterHunterWorld.exe+11CEC10</AddressString>
+      <Before>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>51</Byte>
+        <Byte>0C</Byte>
+      </Actual>
+      <After>
+        <Byte>85</Byte>
+        <Byte>D2</Byte>
+        <Byte>75</Byte>
+        <Byte>09</Byte>
+        <Byte>41</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Overwrite QA Inventory</Description>
+      <AddressString>MonsterHunterWorld.exe+ED09D2</AddressString>
+      <Before>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>33</Byte>
+        <Byte>C0</Byte>
+      </Before>
+      <Actual>
+        <Byte>48</Byte>
+        <Byte>89</Byte>
+        <Byte>41</Byte>
+        <Byte>08</Byte>
+      </Actual>
+      <After>
+        <Byte>C3</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+        <Byte>CC</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of mov [rcx+24],r10</Description>
+      <AddressString>MonsterHunterWorld.exe+B12103</AddressString>
+      <Before>
+        <Byte>C3</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+      </Before>
+      <Actual>
+        <Byte>4C</Byte>
+        <Byte>89</Byte>
+        <Byte>51</Byte>
+        <Byte>24</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>D1</Byte>
+        <Byte>44</Byte>
+        <Byte>89</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of mov [rbx+24],edi</Description>
+      <AddressString>MonsterHunterWorld.exe+B13017</AddressString>
+      <Before>
+        <Byte>00</Byte>
+        <Byte>3B</Byte>
+        <Byte>C7</Byte>
+        <Byte>76</Byte>
+        <Byte>03</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>7B</Byte>
+        <Byte>24</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>5C</Byte>
+        <Byte>24</Byte>
+        <Byte>30</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Code :mov ecx,[r15+60]</Description>
+      <AddressString>MonsterHunterWorld.exe+1030E7C</AddressString>
+      <Before>
+        <Byte>85</Byte>
+        <Byte>60</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>41</Byte>
+        <Byte>8B</Byte>
+        <Byte>4F</Byte>
+        <Byte>60</Byte>
+      </Actual>
+      <After>
+        <Byte>E8</Byte>
+        <Byte>FB</Byte>
+        <Byte>DE</Byte>
+        <Byte>86</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Code :mov ecx,[rsi+60]</Description>
+      <AddressString>MonsterHunterWorld.exe+136B4ED</AddressString>
+      <Before>
+        <Byte>E8</Byte>
+        <Byte>F3</Byte>
+        <Byte>7A</Byte>
+        <Byte>7A</Byte>
+        <Byte>FF</Byte>
+      </Before>
+      <Actual>
+        <Byte>8B</Byte>
+        <Byte>4E</Byte>
+        <Byte>60</Byte>
+      </Actual>
+      <After>
+        <Byte>E8</Byte>
+        <Byte>8B</Byte>
+        <Byte>38</Byte>
+        <Byte>53</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Code :movzx ecx,word ptr [rax+42]</Description>
+      <AddressString>MonsterHunterWorld.exe+136B4DE</AddressString>
+      <Before>
+        <Byte>E8</Byte>
+        <Byte>42</Byte>
+        <Byte>BA</Byte>
+        <Byte>61</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>0F</Byte>
+        <Byte>B7</Byte>
+        <Byte>48</Byte>
+        <Byte>42</Byte>
+      </Actual>
+      <After>
+        <Byte>0F</Byte>
+        <Byte>B7</Byte>
+        <Byte>D1</Byte>
+        <Byte>49</Byte>
+        <Byte>8B</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Get Armor</Description>
+      <AddressString>MonsterHunterWorld.exe+136B6BB</AddressString>
+      <Before>
+        <Byte>30</Byte>
+        <Byte>00</Byte>
+        <Byte>49</Byte>
+        <Byte>8B</Byte>
+        <Byte>CE</Byte>
+      </Before>
+      <Actual>
+        <Byte>0F</Byte>
+        <Byte>B7</Byte>
+        <Byte>50</Byte>
+        <Byte>1E</Byte>
+      </Actual>
+      <After>
+        <Byte>E8</Byte>
+        <Byte>1C</Byte>
+        <Byte>79</Byte>
+        <Byte>7A</Byte>
+        <Byte>FF</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>pot_vhigh</Name>
+      <Address>4051E398</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>ls_vhigh</Name>
+      <Address>4051E028</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>marker_bb</Name>
+      <Address>4051E0F0</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>loot_nemgear</Name>
+      <Address>3FA03C48</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>p_investigation</Name>
+      <Address>152DC004C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_investigation</Name>
+      <Address>14E3AA817</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_investigation_ms</Name>
+      <Address>14E62E041</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_invoffsets</Name>
+      <Address>14CFA52C7</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_statsmission</Name>
+      <Address>149FAA6C4</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_palicopet</Name>
+      <Address>149FAF193</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>p_inv1</Name>
+      <Address>13FFF0097</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>p_inv2</Name>
+      <Address>13FFF009F</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>p_inv3</Name>
+      <Address>13FFF00A7</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>p_inv4</Name>
+      <Address>13FFF00AF</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infitemuse</Name>
+      <Address>14C19077C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>hampc</Name>
+      <Address>141C7586C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>nopgcd2</Name>
+      <Address>141BBA0DC</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>maxbowcharge</Name>
+      <Address>141C8C715</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>p_playerstats</Name>
+      <Address>13FF9001E</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>events_listadd1</Name>
+      <Address>141730304</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>events_listadd2</Name>
+      <Address>14173040A</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>events_enable1</Name>
+      <Address>14AA98631</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>events_enable2</Name>
+      <Address>14AA99339</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>ps1</Name>
+      <Address>151ED001C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>maxskills</Name>
+      <Address>147995E3C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>maxskills2</Name>
+      <Address>14F14C4D7</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>coordp</Name>
+      <Address>13FFE0115</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>ewpt</Name>
+      <Address>13FFE011D</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>ert</Name>
+      <Address>13FFE0125</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>wpX</Name>
+      <Address>13FFD003A</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>wpZ</Name>
+      <Address>13FFD0042</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>wpY</Name>
+      <Address>13FFD004A</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>retX</Name>
+      <Address>13FFC003A</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>retZ</Name>
+      <Address>13FFC0042</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>retY</Name>
+      <Address>13FFC004A</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infstam</Name>
+      <Address>14F175416</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infdur</Name>
+      <Address>141C6DEAC</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infmantleuse</Name>
+      <Address>14E75D7EF</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infmantleuse2</Name>
+      <Address>14E7571F9</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infmantleuse3</Name>
+      <Address>14E758651</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>mantlecd</Name>
+      <Address>14E75D43F</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>nopgcd</Name>
+      <Address>141BBE83C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>scoutflylvl</Name>
+      <Address>14174F61A</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>scfll</Name>
+      <Address>14E351280</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>scfll2</Name>
+      <Address>141750059</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inflv</Name>
+      <Address>14E601286</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>zeni</Name>
+      <Address>14F4524A0</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>hrexpmul</Name>
+      <Address>14F44EADC</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>palicoexpmul</Name>
+      <Address>14F49C6F0</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>pgadmul</Name>
+      <Address>14F49C966</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>monresearchmul</Name>
+      <Address>14F490F3C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>monresp</Name>
+      <Address>14E3512AA</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>cannonsal</Name>
+      <Address>14DD896FF</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>cannonsnsf</Name>
+      <Address>14DD87BDA</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>pcoords</Name>
+      <Address>141922FAA</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>getwp</Name>
+      <Address>141984E2C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>getretdata</Name>
+      <Address>141BDE20C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>InfGather1AOB</Name>
+      <Address>14F0D001D</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>InfGather2AOB</Name>
+      <Address>14F0D0212</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_gathertracks</Name>
+      <Address>141BFCAC3</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inventory</Name>
+      <Address>90060098</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>invest</Name>
+      <Address>14E603279</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>bbp1</Name>
+      <Address>141663FC8</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>bbp2</Name>
+      <Address>141664018</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_catchpet</Name>
+      <Address>14191E2DD</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_mapfunc_pet</Name>
+      <Address>141013120</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_gatherwish</Name>
+      <Address>14144A540</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>instgsch</Name>
+      <Address>141C71A07</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infspirit</Name>
+      <Address>146E4E863</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infdemonmode</Name>
+      <Address>14E219978</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>hammerch</Name>
+      <Address>146AD00B3</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>hpcaa</Name>
+      <Address>141C7756D</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infglammonte</Name>
+      <Address>141C7B4C0</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infglwsnte</Name>
+      <Address>141C7B7D9</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>noglcd</Name>
+      <Address>14721AAB0</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>fcswa</Name>
+      <Address>147751268</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>cbiphaw</Name>
+      <Address>146E40132</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>cbacsw</Name>
+      <Address>141C8387C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>cbacsh</Name>
+      <Address>141C83851</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infhhbd</Name>
+      <Address>1472A0736</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>extractdur</Name>
+      <Address>147741C73</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infigstam</Name>
+      <Address>141C8A72C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infigja</Name>
+      <Address>141411CF8</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>allammo</Name>
+      <Address>146A056D0</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>allammo2</Name>
+      <Address>141C95732</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infwyvernblast</Name>
+      <Address>147739B7F</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infhbgsa</Name>
+      <Address>14D267D2B</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infhbgsa2</Name>
+      <Address>141C959CB</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>allcoating</Name>
+      <Address>1414774A2</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>mbc1</Name>
+      <Address>141C8DCCA</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>mbc2</Name>
+      <Address>141C8E6F6</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>abstam</Name>
+      <Address>146B68A10</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>iar</Name>
+      <Address>14144BF4C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>iar2</Name>
+      <Address>14144BF46</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>setmapzoom</Name>
+      <Address>141992665</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>maxsetb</Name>
+      <Address>14F14C4AF</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>armorskm</Name>
+      <Address>14F14C4D7</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>unlockcharms</Name>
+      <Address>141ACE935</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>unlockdec</Name>
+      <Address>141ACE902</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>unlockaug</Name>
+      <Address>141ACE8E8</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>unlockarmorwea2</Name>
+      <Address>1411E3581</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_pchar</Name>
+      <Address>1468D2B8C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>aob_statsmission</Name>
+      <Address>14D1746A0</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>aob_palicopet</Name>
+      <Address>14D1778CB</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>aob_layeredarmor</Name>
+      <Address>14F45B041</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_playerstats</Name>
+      <Address>141BDE350</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>p_gamedb</Name>
+      <Address>3581F540</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inj_rewards</Name>
+      <Address>141A78563</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>targethealthaob</Name>
+      <Address>14EE279BC</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>ppaa</Name>
+      <Address>14E8AB12E</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>herosaa</Name>
+      <Address>14E8ABF50</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>herosaa2</Name>
+      <Address>14E8ABF62</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>rsaa</Name>
+      <Address>14E8AB1A9</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>superbuff</Name>
+      <Address>1472A0724</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>lpactt</Name>
+      <Address>14E8AAF16</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>lptdec</Name>
+      <Address>14E8AAEBE</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>targethealth</Name>
+      <Address>151EA0064</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infitemuse1</Name>
+      <Address>14144C914</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infitemuse2</Name>
+      <Address>14E8DCBE4</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infsla</Name>
+      <Address>146A0513B</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infhealth</Name>
+      <Address>14EA9063C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>infhealth2</Name>
+      <Address>14EA90CFD</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>gSaveData</Name>
+      <Address>008A0000</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+  <Comments>v1.7.6
+</Comments>
+  <LuaScript>function cycleFullCompact(sender,force) local state = not(compactmenuitem.Caption == 'Compact View Mode'); if force~=nil then state = not force end; compactmenuitem.Caption = state and 'Compact View Mode' or 'Full View Mode'; getMainForm().Splitter1.Visible = state; getMainForm().Panel4.Visible    = state; getMainForm().Panel5.Visible    = state; end; function addCompactMenu() if compactmenualreadyexists then return end; local parent = getMainForm().Menu.Items; compactmenuitem = createMenuItem(parent); parent.add(compactmenuitem); compactmenuitem.Caption = 'Compact View Mode'; compactmenuitem.OnClick = cycleFullCompact; compactmenualreadyexists = 'yes'; end; addCompactMenu(); cycleFullCompact(nil,true)
+</LuaScript>
+</CheatTable>
